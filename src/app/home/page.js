@@ -1,8 +1,9 @@
 "use client";
 
 import Head from "next/head";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import html2canvas from "html2canvas";
+import Link from "next/link";
 
 export default function Home() {
   const [selections, setSelections] = useState({
@@ -26,7 +27,7 @@ export default function Home() {
     const handleResize = () => {
       const mobile = window.innerWidth <= 768;
       setIsMobile(mobile);
-      setItemsPerPage(mobile ? 4 : 7); // Adjust items per page based on screen size
+      setItemsPerPage(mobile ? 4 : 7);
     };
     window.addEventListener("resize", handleResize);
     handleResize();
@@ -93,6 +94,15 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      {/* Arrow Back Button */}
+      <div className="absolute top-5 left-5">
+        <Link href="/">
+          <button className="flex items-center space-x-2 bg-white text-teal-700 font-bold py-2 px-4 rounded-full border-2 border-teal-700 hover:bg-teal-500 hover:text-white transition-all duration-300">
+            <span className="text-xl">←</span> <span>Back</span>
+          </button>
+        </Link>
+      </div>
+
       {/* Header Image */}
       <div className="w-full flex justify-center mb-4">
         <img
@@ -107,7 +117,6 @@ export default function Home() {
           isMobile ? "flex-col" : "flex-row"
         } w-10/12 mx-auto my-2 gap-4`}
       >
-        {/* Preview Area */}
         <div
           className={`bg-white p-2 rounded-lg shadow-md ${
             isMobile ? "w-full h-64" : "w-1/2 h-auto"
@@ -149,7 +158,6 @@ export default function Home() {
           />
         </div>
 
-        {/* Items Selection */}
         <div
           className={`bg-[#FFE173] p-4 rounded-lg shadow-md ${
             isMobile ? "w-full" : "w-1/2"
@@ -160,7 +168,6 @@ export default function Home() {
               <h3 className="mb-1 text-md font-bold">
                 {category.charAt(0).toUpperCase() + category.slice(1)}
               </h3>
-
               <div className="flex items-center">
                 <button
                   onClick={() => scroll(category, "left")}
@@ -169,13 +176,11 @@ export default function Home() {
                 >
                   &#9664;
                 </button>
-
                 <div className="flex space-x-2 overflow-hidden">
                   {[...Array(itemsPerPage)].map((_, index) => {
                     const itemIndex =
                       currentPage[category] * itemsPerPage + index;
                     if (itemIndex >= categories[category]) return null;
-
                     return (
                       <div
                         key={itemIndex}
@@ -208,7 +213,6 @@ export default function Home() {
                     );
                   })}
                 </div>
-
                 <button
                   onClick={() => scroll(category, "right")}
                   className="p-2 rounded-full bg-[#E09E61] text-white ml-2"
