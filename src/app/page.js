@@ -79,22 +79,27 @@ function LandingPage() {
             />
           </div>
           <div
-            className="mx-auto flex-grow flex justify-center items-center relative w-3/4 h-[590px] p-2 rounded-lg shadow-md"
+            className="mx-auto flex-grow flex justify-center items-center relative w-3/4 h-[590px] p-2 rounded-lg"
             style={{
               backgroundImage: "url('/kolase.png')",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
+              backgroundSize: "contain", // Ensure the whole image is visible
+              backgroundRepeat: "no-repeat", // Prevent repeating the image
+              backgroundPosition: "center", // Center the image within the container
             }}
           >
             {/* Placeholder */}
           </div>
 
           <div className="relative mx-auto w-full flex-row justify-center pt-14">
-            <img
-              src="/assets/homepage/Make-Your-Own.png"
-              alt="Make Your Own Molang Title"
-              className="w-1/3 md:w-1/4 object-contain mx-auto relative"
-            />
+            <Link href="/home" passHref>
+              <img
+                src="/assets/homepage/Make-Your-Own.png"
+                alt="Make Your Own Molang Title"
+                className="w-1/3 md:w-1/4 object-contain mx-auto relative transition-transform duration-300 ease-in-out hover:scale-110 hover:rotate-2"
+                style={{ cursor: "pointer" }}
+              />
+            </Link>
+
             <div className="mx-auto flex-grow flex justify-center items-center relative w-full h-full bg-[#3E8C98] p-10 transform -translate-y-">
               {/* Placeholder */}
             </div>

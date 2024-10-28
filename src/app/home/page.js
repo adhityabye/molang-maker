@@ -19,23 +19,26 @@ export default function Home() {
     clothes: 13,
   };
 
-  const ITEMS_PER_PAGE = 7;
+  const [isMobile, setIsMobile] = useState(false);
+  const [itemsPerPage, setItemsPerPage] = useState(7);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      setItemsPerPage(mobile ? 4 : 7); // Adjust items per page based on screen size
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const [currentPage, setCurrentPage] = useState(
     Object.keys(categories).reduce((acc, category) => {
       acc[category] = 0;
       return acc;
     }, {})
   );
-
-  const [isMobile, setIsMobile] = useState(false);
-
-  // Detect screen size to switch between layouts
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 768);
-    window.addEventListener("resize", handleResize);
-    handleResize(); // Run on mount to detect initial size
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   function handleSelection(category, index) {
     const fileIndex = index < 10 ? `0${index}` : index;
@@ -45,7 +48,7 @@ export default function Home() {
   }
 
   function scroll(category, direction) {
-    const maxPages = Math.ceil(categories[category] / ITEMS_PER_PAGE);
+    const maxPages = Math.ceil(categories[category] / itemsPerPage);
     const newPage =
       direction === "left"
         ? Math.max(currentPage[category] - 1, 0)
@@ -99,7 +102,6 @@ export default function Home() {
         />
       </div>
 
-      {/* Responsive Content Container */}
       <div
         className={`flex ${
           isMobile ? "flex-col" : "flex-row"
@@ -169,9 +171,9 @@ export default function Home() {
                 </button>
 
                 <div className="flex space-x-2 overflow-hidden">
-                  {[...Array(ITEMS_PER_PAGE)].map((_, index) => {
+                  {[...Array(itemsPerPage)].map((_, index) => {
                     const itemIndex =
-                      currentPage[category] * ITEMS_PER_PAGE + index;
+                      currentPage[category] * itemsPerPage + index;
                     if (itemIndex >= categories[category]) return null;
 
                     return (
@@ -212,7 +214,7 @@ export default function Home() {
                   className="p-2 rounded-full bg-[#E09E61] text-white ml-2"
                   disabled={
                     currentPage[category] ===
-                    Math.ceil(categories[category] / ITEMS_PER_PAGE) - 1
+                    Math.ceil(categories[category] / itemsPerPage) - 1
                   }
                 >
                   &#9654;
@@ -223,7 +225,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Control Buttons */}
       <div className="mt-2 mb-4 space-x-4">
         <button
           className="bg-[#ffa07a] text-white py-2 px-3 rounded border-2 border-white hover:bg-white hover:text-[#ffa07a]"
