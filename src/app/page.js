@@ -3,10 +3,23 @@ import Link from "next/link";
 function LandingPage() {
   return (
     <div className="relative min-h-full bg-white">
-      <div
-        className="relative h-screen bg-no-repeat bg-cover bg-center"
-        style={{ backgroundImage: `url('/main.png')` }}
-      >
+      <div className="relative h-screen">
+        <video
+          className="block md:hidden absolute top-0 left-0 w-full h-full object-cover"
+          src="/mobile_main.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+        ></video>
+        <video
+          className="hidden md:block absolute top-0 left-0 w-full h-full object-cover"
+          src="/main_vid.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+        ></video>
         {/* Button centered at the bottom */}
         <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2">
           <Link
