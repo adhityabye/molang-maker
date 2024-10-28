@@ -1,7 +1,7 @@
 "use client";
 
 import Head from "next/head";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import html2canvas from "html2canvas";
 
 export default function Home() {
@@ -16,9 +16,18 @@ export default function Home() {
     background: 3,
     face: 7,
     handAccessories: 4,
-    clothes: 13,
+    clothes: 13, // More than 7 items to test pagination
   };
 
+  const ITEMS_PER_PAGE = 7; // Number of items shown per page
+  const [currentPage, setCurrentPage] = useState(
+    Object.keys(categories).reduce((acc, category) => {
+      acc[category] = 0;
+      return acc;
+    }, {})
+  );
+
+  // Handle item selection
   function handleSelection(category, index) {
     const fileIndex = index < 10 ? `0${index}` : index;
     const formattedCategory = category.replace(/\s/g, "-").toLowerCase();
@@ -26,6 +35,17 @@ export default function Home() {
     setSelections((prev) => ({ ...prev, [category]: path }));
   }
 
+  // Navigate between pages
+  function scroll(category, direction) {
+    const maxPages = Math.ceil(categories[category] / ITEMS_PER_PAGE);
+    const newPage =
+      direction === "left"
+        ? Math.max(currentPage[category] - 1, 0)
+        : Math.min(currentPage[category] + 1, maxPages - 1);
+    setCurrentPage((prev) => ({ ...prev, [category]: newPage }));
+  }
+
+  // Reset selections
   function resetSelections() {
     setSelections({
       background: null,
@@ -35,6 +55,7 @@ export default function Home() {
     });
   }
 
+  // Generate random selection
   function generateRandomSelection() {
     Object.keys(categories).forEach((category) => {
       const maxItems = categories[category];
@@ -43,59 +64,112 @@ export default function Home() {
     });
   }
 
-    function downloadResult() {
-      const captureElement = document.getElementById("previewArea");
-      html2canvas(captureElement).then((canvas) => {
-        const image = canvas.toDataURL("image/png", 1.0);
-        const link = document.createElement("a");
-        link.href = image;
-        link.download = "customized-character.png";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      });
-    }
+  // Download result as PNG
+  function downloadResult() {
+    const captureElement = document.getElementById("previewArea");
+    html2canvas(captureElement).then((canvas) => {
+      const image = canvas.toDataURL("image/png", 1.0);
+      const link = document.createElement("a");
+      link.href = image;
+      link.download = "customized-character.png";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+  }
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-[#ffd3b4]">
-      {/* <Head>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#96D4E1]">
+      <Head>
         <title>Character Customizer</title>
         <link rel="icon" href="/favicon.png" />
-      </Head> */}
+      </Head>
 
-      <div className="flex w-full md:w-11/12">
-        <div className="flex flex-col bg-[#ffa07a] p-5 rounded-lg mr-5 overflow-auto h-auto md:h-full">
+      {/* Header Image */}
+      <div className="w-full flex justify-center">
+        <img
+          src="/make-molang.png"
+          alt="Make Molang Header"
+          className="w-1/3 md:w-1/4 object-contain"
+        />
+      </div>
+
+      {/* Content Container */}
+      <div className="flex w-full md:w-10/12 mx-auto my-2 space-x-4 h-4/6">
+        {/* Items Selection */}
+        <div className="flex flex-col bg-[#FFE173] p-4 rounded-lg shadow-md w-1/2 overflow-hidden">
           {Object.keys(categories).map((category) => (
-            <div key={category} className="mb-5">
-              <h3 className="mb-2.5 text-lg font-bold">
+            <div key={category} className="mb-3">
+              <h3 className="mb-1 text-md font-bold">
                 {category.charAt(0).toUpperCase() + category.slice(1)}
               </h3>
-              <div className="flex flex-wrap">
-                {[...Array(categories[category])].map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleSelection(category, index + 1)}
-                    className="p-1.5"
-                  >
-                    <img
-                      src={`/assets/${category
-                        .replace(/\s/g, "-")
-                        .toLowerCase()}/${category
-                        .replace(/\s/g, "-")
-                        .toLowerCase()}-${
-                        index + 1 < 10 ? `0${index + 1}` : index + 1
-                      }.png`}
-                      alt={`${category} ${index + 1}`}
-                      className="w-12 h-12 object-cover"
-                    />
-                  </button>
-                ))}
+
+              <div className="flex items-center">
+                <button
+                  onClick={() => scroll(category, "left")}
+                  className="p-2 rounded-full bg-[#E09E61] text-white mr-2"
+                  disabled={currentPage[category] === 0}
+                >
+                  &#9664;
+                </button>
+
+                <div className="flex space-x-2 overflow-hidden">
+                  {[...Array(ITEMS_PER_PAGE)].map((_, index) => {
+                    const itemIndex =
+                      currentPage[category] * ITEMS_PER_PAGE + index;
+                    if (itemIndex >= categories[category]) return null;
+
+                    return (
+                      <div
+                        key={itemIndex}
+                        className="p-1 m-1.5 rounded-lg border-2"
+                        style={{
+                          borderColor: "#E09E61",
+                          backgroundColor: "#F7ECD6",
+                        }}
+                      >
+                        <button
+                          onClick={() =>
+                            handleSelection(category, itemIndex + 1)
+                          }
+                        >
+                          <img
+                            src={`/assets/${category
+                              .replace(/\s/g, "-")
+                              .toLowerCase()}/${category
+                              .replace(/\s/g, "-")
+                              .toLowerCase()}-${
+                              itemIndex + 1 < 10
+                                ? `0${itemIndex + 1}`
+                                : itemIndex + 1
+                            }.png`}
+                            alt={`${category} ${itemIndex + 1}`}
+                            className="w-12 h-12 object-cover"
+                          />
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <button
+                  onClick={() => scroll(category, "right")}
+                  className="p-2 rounded-full bg-[#E09E61] text-white ml-2"
+                  disabled={
+                    currentPage[category] ===
+                    Math.ceil(categories[category] / ITEMS_PER_PAGE) - 1
+                  }
+                >
+                  &#9654;
+                </button>
               </div>
             </div>
           ))}
         </div>
+
+        {/* Preview Area */}
         <div
-          className="flex-grow flex justify-center items-center relative w-96 h-auto md:h-full"
+          className="flex-grow flex justify-center items-center relative w-1/2 bg-white p-2 rounded-lg shadow-md"
           id="previewArea"
         >
           {selections.background && (
@@ -134,21 +208,22 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="mt-4 space-x-4">
+      {/* Buttons */}
+      <div className="mt-2 space-x-4">
         <button
-          className="bg-[#ffa07a] text-white py-2 px-4 rounded border-2 border-white hover:bg-white hover:text-[#ffa07a]"
+          className="bg-[#ffa07a] text-white py-2 px-3 rounded border-2 border-white hover:bg-white hover:text-[#ffa07a]"
           onClick={resetSelections}
         >
           Reset
         </button>
         <button
-          className="bg-[#ffa07a] text-white py-2 px-4 rounded border-2 border-white hover:bg-white hover:text-[#ffa07a]"
+          className="bg-[#ffa07a] text-white py-2 px-3 rounded border-2 border-white hover:bg-white hover:text-[#ffa07a]"
           onClick={generateRandomSelection}
         >
           Randomize
         </button>
         <button
-          className="bg-[#ffa07a] text-white py-2 px-4 rounded border-2 border-white hover:bg-white hover:text-[#ffa07a]"
+          className="bg-[#ffa07a] text-white py-2 px-3 rounded border-2 border-white hover:bg-white hover:text-[#ffa07a]"
           onClick={downloadResult}
         >
           Download
@@ -157,4 +232,3 @@ export default function Home() {
     </div>
   );
 }
-
