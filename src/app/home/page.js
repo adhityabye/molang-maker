@@ -1,7 +1,7 @@
 "use client";
 
 import Head from "next/head";
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import html2canvas from "html2canvas";
 
 export default function Home() {
@@ -13,13 +13,13 @@ export default function Home() {
   });
 
   const categories = {
-    background: 3,
+    background: 8,
     face: 7,
-    handAccessories: 4,
-    clothes: 13, // More than 7 items to test pagination
+    handAccessories: 8,
+    clothes: 13,
   };
 
-  const ITEMS_PER_PAGE = 7; // Number of items shown per page
+  const ITEMS_PER_PAGE = 7;
   const [currentPage, setCurrentPage] = useState(
     Object.keys(categories).reduce((acc, category) => {
       acc[category] = 0;
@@ -27,7 +27,16 @@ export default function Home() {
     }, {})
   );
 
-  // Handle item selection
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect screen size to switch between layouts
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Run on mount to detect initial size
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   function handleSelection(category, index) {
     const fileIndex = index < 10 ? `0${index}` : index;
     const formattedCategory = category.replace(/\s/g, "-").toLowerCase();
@@ -35,7 +44,6 @@ export default function Home() {
     setSelections((prev) => ({ ...prev, [category]: path }));
   }
 
-  // Navigate between pages
   function scroll(category, direction) {
     const maxPages = Math.ceil(categories[category] / ITEMS_PER_PAGE);
     const newPage =
@@ -45,7 +53,6 @@ export default function Home() {
     setCurrentPage((prev) => ({ ...prev, [category]: newPage }));
   }
 
-  // Reset selections
   function resetSelections() {
     setSelections({
       background: null,
@@ -55,7 +62,6 @@ export default function Home() {
     });
   }
 
-  // Generate random selection
   function generateRandomSelection() {
     Object.keys(categories).forEach((category) => {
       const maxItems = categories[category];
@@ -64,7 +70,6 @@ export default function Home() {
     });
   }
 
-  // Download result as PNG
   function downloadResult() {
     const captureElement = document.getElementById("previewArea");
     html2canvas(captureElement).then((canvas) => {
@@ -79,14 +84,14 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-full bg-[#96D4E1]">
+    <div className="flex flex-col items-center justify-center min-h-full bg-[#96D4E1] p-4">
       <Head>
         <title>Character Customizer</title>
         <link rel="icon" href="/favicon.png" />
       </Head>
 
       {/* Header Image */}
-      <div className="w-full flex justify-center">
+      <div className="w-full flex justify-center mb-4">
         <img
           src="/make-molang.png"
           alt="Make Molang Header"
@@ -94,10 +99,60 @@ export default function Home() {
         />
       </div>
 
-      {/* Content Container */}
-      <div className="flex items-center lg:items-stretch flex-col-reverse lg:flex-row w-10/12 sm:w-3/4 md:w-8/12 lg:w-10/12 mx-auto my-2 space-x-0 lg:space-x-4 gap-y-4 lg:gap-y-0 h-4/6">
+      {/* Responsive Content Container */}
+      <div
+        className={`flex ${
+          isMobile ? "flex-col" : "flex-row"
+        } w-10/12 mx-auto my-2 gap-4`}
+      >
+        {/* Preview Area */}
+        <div
+          className={`bg-white p-2 rounded-lg shadow-md ${
+            isMobile ? "w-full h-64" : "w-1/2 h-auto"
+          } relative`}
+          id="previewArea"
+        >
+          {selections.background && (
+            <img
+              src={selections.background}
+              alt="Background"
+              className="absolute w-full h-full object-contain z-1"
+            />
+          )}
+          {selections.clothes && (
+            <img
+              src={selections.clothes}
+              alt="Clothes"
+              className="absolute w-full h-full object-contain z-20"
+            />
+          )}
+          {selections.face && (
+            <img
+              src={selections.face}
+              alt="Face"
+              className="absolute w-full h-full object-contain z-40"
+            />
+          )}
+          {selections.handAccessories && (
+            <img
+              src={selections.handAccessories}
+              alt="Hand Accessories"
+              className="absolute w-full h-full object-contain z-30"
+            />
+          )}
+          <img
+            src="/assets/base/base.png"
+            alt="Base Character"
+            className="absolute w-full h-full object-contain z-10"
+          />
+        </div>
+
         {/* Items Selection */}
-        <div className="flex flex-col bg-[#FFE173] p-4 rounded-lg shadow-md w-full sm:w-11/12 lg:w-1/2 overflow-hidden">
+        <div
+          className={`bg-[#FFE173] p-4 rounded-lg shadow-md ${
+            isMobile ? "w-full" : "w-1/2"
+          } overflow-hidden`}
+        >
           {Object.keys(categories).map((category) => (
             <div key={category} className="mb-3">
               <h3 className="mb-1 text-md font-bold">
@@ -166,49 +221,9 @@ export default function Home() {
             </div>
           ))}
         </div>
-
-        {/* Preview Area */}
-        <div
-          className="min-h-56 md:min-h-80 lg:min-h-0 flex-grow flex justify-center items-center relative w-full sm:w-11/12 lg:w-1/2 bg-white p-2 rounded-lg shadow-md"
-          id="previewArea"
-        >
-          {selections.background && (
-            <img
-              src={selections.background}
-              alt="Background"
-              className="absolute w-full h-full object-contain z-1"
-            />
-          )}
-          {selections.clothes && (
-            <img
-              src={selections.clothes}
-              alt="Clothes"
-              className="absolute w-full h-full object-contain z-20"
-            />
-          )}
-          {selections.face && (
-            <img
-              src={selections.face}
-              alt="Face"
-              className="absolute w-full h-full object-contain z-40"
-            />
-          )}
-          {selections.handAccessories && (
-            <img
-              src={selections.handAccessories}
-              alt="Hand Accessories"
-              className="absolute w-full h-full object-contain z-30"
-            />
-          )}
-          <img
-            src="/assets/base/base.png"
-            alt="Base Character"
-            className="absolute w-full h-full object-contain z-10"
-          />
-        </div>
       </div>
 
-      {/* Buttons */}
+      {/* Control Buttons */}
       <div className="mt-2 mb-4 space-x-4">
         <button
           className="bg-[#ffa07a] text-white py-2 px-3 rounded border-2 border-white hover:bg-white hover:text-[#ffa07a]"

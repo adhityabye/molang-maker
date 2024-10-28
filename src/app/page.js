@@ -31,7 +31,7 @@ function LandingPage() {
         </div>
 
         {/* PNG Assets with the X icon as a hyperlink */}
-        <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex space-x-6">
+        <div className="absolute top-5 right-5 transform -translate-x-1/2 flex space-x-6">
           <a
             href="https://x.com/molang_onsol?t=ogCEBXtv9DMYHYIJErMZUQ&s=09"
             target="_blank"
@@ -78,9 +78,17 @@ function LandingPage() {
               className="w-1/3 md:w-1/4 object-contain"
             />
           </div>
-          <div className="mx-auto flex-grow flex justify-center items-center relative w-3/4 h-[590px] bg-[#D9D9D9] p-2 rounded-lg shadow-md">
+          <div
+            className="mx-auto flex-grow flex justify-center items-center relative w-3/4 h-[590px] p-2 rounded-lg shadow-md"
+            style={{
+              backgroundImage: "url('/kolase.png')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
             {/* Placeholder */}
           </div>
+
           <div className="relative mx-auto w-full flex-row justify-center pt-14">
             <img
               src="/assets/homepage/Make-Your-Own.png"
