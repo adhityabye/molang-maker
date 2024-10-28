@@ -90,7 +90,7 @@ export default function Home() {
         <img
           src="/make-molang.png"
           alt="Make Molang Header"
-          className="w-1/3 md:w-1/4 object-contain"
+          className="w-1/2 sm:w-1/3 lg:w-1/4 object-contain"
         />
       </div>
 
@@ -209,7 +209,7 @@ export default function Home() {
       </div>
 
       {/* Buttons */}
-      <div className="mt-2 space-x-4">
+      <div className="mt-2 mb-4 space-x-4">
         <button
           className="bg-[#ffa07a] text-white py-2 px-3 rounded border-2 border-white hover:bg-white hover:text-[#ffa07a]"
           onClick={resetSelections}
