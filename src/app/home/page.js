@@ -79,7 +79,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#96D4E1]">
+    <div className="flex flex-col items-center justify-center min-h-full bg-[#96D4E1]">
       <Head>
         <title>Character Customizer</title>
         <link rel="icon" href="/favicon.png" />
@@ -95,9 +95,9 @@ export default function Home() {
       </div>
 
       {/* Content Container */}
-      <div className="flex w-full md:w-10/12 mx-auto my-2 space-x-4 h-4/6">
+      <div className="flex items-center lg:items-stretch flex-col-reverse lg:flex-row w-10/12 sm:w-3/4 md:w-8/12 lg:w-10/12 mx-auto my-2 space-x-0 lg:space-x-4 gap-y-4 lg:gap-y-0 h-4/6">
         {/* Items Selection */}
-        <div className="flex flex-col bg-[#FFE173] p-4 rounded-lg shadow-md w-1/2 overflow-hidden">
+        <div className="flex flex-col bg-[#FFE173] p-4 rounded-lg shadow-md w-full sm:w-11/12 lg:w-1/2 overflow-hidden">
           {Object.keys(categories).map((category) => (
             <div key={category} className="mb-3">
               <h3 className="mb-1 text-md font-bold">
@@ -169,41 +169,41 @@ export default function Home() {
 
         {/* Preview Area */}
         <div
-          className="flex-grow flex justify-center items-center relative w-1/2 bg-white p-2 rounded-lg shadow-md"
+          className="min-h-56 md:min-h-80 lg:min-h-0 flex-grow flex justify-center items-center relative w-full sm:w-11/12 lg:w-1/2 bg-white p-2 rounded-lg shadow-md"
           id="previewArea"
         >
           {selections.background && (
             <img
               src={selections.background}
               alt="Background"
-              className="absolute w-full h-full object-cover z-1"
+              className="absolute w-full h-full object-contain z-1"
             />
           )}
           {selections.clothes && (
             <img
               src={selections.clothes}
               alt="Clothes"
-              className="absolute w-full h-full object-cover z-20"
+              className="absolute w-full h-full object-contain z-20"
             />
           )}
           {selections.face && (
             <img
               src={selections.face}
               alt="Face"
-              className="absolute w-full h-full object-cover z-40"
+              className="absolute w-full h-full object-contain z-40"
             />
           )}
           {selections.handAccessories && (
             <img
               src={selections.handAccessories}
               alt="Hand Accessories"
-              className="absolute w-full h-full object-cover z-30"
+              className="absolute w-full h-full object-contain z-30"
             />
           )}
           <img
             src="/assets/base/base.png"
             alt="Base Character"
-            className="absolute w-full h-full object-cover z-10"
+            className="absolute w-full h-full object-contain z-10"
           />
         </div>
       </div>
