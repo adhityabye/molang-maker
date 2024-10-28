@@ -31,7 +31,7 @@ function LandingPage() {
         </div>
 
         {/* PNG Assets with the X icon as a hyperlink */}
-        <div className="absolute top-5 right-5 transform -translate-x-1/2 flex space-x-6">
+        <div className="absolute top-5 right-5 flex space-x-6">
           <a
             href="https://x.com/molang_onsol?t=ogCEBXtv9DMYHYIJErMZUQ&s=09"
             target="_blank"
@@ -40,18 +40,24 @@ function LandingPage() {
             <img
               src="/x.png"
               alt="X Icon"
-              className="w-12 h-12 object-contain"
+              className="w-12 h-12 object-contain transform transition-transform duration-300 hover:scale-90"
+            />
+          </a>
+          <a
+            href="https://t.me/molang_onsol"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="/tele.png"
+              alt="Telegram Icon"
+              className="w-12 h-12 object-contain transform transition-transform duration-300 hover:scale-90"
             />
           </a>
           <img
-            src="/tele.png"
-            alt="Tele Icon"
-            className="w-12 h-12 object-contain"
-          />
-          <img
             src="/buy.png"
             alt="Buy Icon"
-            className="w-12 h-12 object-contain"
+            className="w-12 h-12 object-contain transform transition-transform duration-300 hover:scale-90"
           />
         </div>
       </div>

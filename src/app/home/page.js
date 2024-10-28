@@ -90,7 +90,7 @@ export default function Home() {
     <div className="flex flex-col items-center justify-center min-h-full bg-[#96D4E1] p-4">
       <Head>
         <title>Character Customizer</title>
-        <link rel="icon" href="/favicon.png" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       {/* Header Image */}
