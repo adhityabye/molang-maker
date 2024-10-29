@@ -17,7 +17,8 @@ const josefin = Josefin_Sans({
 
 export const metadata = {
   title: "Molang",
-  description: "Molang The Bunny",
+  description:
+    "Molang, the petite white adventurer who embraces joy and reminding us that every day is an opportunity for happiness.",
 };
 
 export default function RootLayout({ children }) {
