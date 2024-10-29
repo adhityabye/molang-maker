@@ -24,7 +24,7 @@ function LandingPage() {
         <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2">
           <Link
             href="/home"
-            className="bg-white text-teal-700 font-bold py-2 px-4 rounded-full border-2 border-teal-700 hover:bg-teal-500 hover:text-white cursor-pointer transition-all duration-300 ease-in-out"
+            className="bg-white text-teal-700 font-bold py-4 px-8 rounded-full border-2 border-teal-700 hover:bg-teal-500 hover:text-white cursor-pointer transition-all duration-300 ease-in-out"
           >
             Start Customizing
           </Link>
@@ -40,7 +40,18 @@ function LandingPage() {
             <img
               src="/x.png"
               alt="X Icon"
-              className="w-12 h-12 object-contain transform transition-transform duration-300 hover:scale-90"
+              className="w-20 h-20 object-contain transform transition-transform duration-300 hover:scale-150"
+            />
+          </a>
+          <a
+            href="https://t.me/MolangPortal"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="/tele.png"
+              alt="Telegram Icon"
+              className="w-20 h-20 object-contain transform transition-transform duration-300 hover:scale-150"
             />
           </a>
           <a
@@ -49,16 +60,11 @@ function LandingPage() {
             rel="noopener noreferrer"
           >
             <img
-              src="/tele.png"
-              alt="Telegram Icon"
-              className="w-12 h-12 object-contain transform transition-transform duration-300 hover:scale-90"
+              src="/buy.png"
+              alt="Buy Icon"
+              className="w-20 h-20 object-contain transform transition-transform duration-300 hover:scale-150"
             />
           </a>
-          <img
-            src="/buy.png"
-            alt="Buy Icon"
-            className="w-12 h-12 object-contain transform transition-transform duration-300 hover:scale-90"
-          />
         </div>
       </div>
       <div className="h-full mx-auto">
