@@ -6,7 +6,7 @@ function LandingPage() {
       <div className="relative h-screen">
         <video
           className="block md:hidden absolute top-0 left-0 w-full h-full object-cover"
-          src="/mobile_main.mp4"
+          src="/comp_mobile.mp4"
           autoPlay
           loop
           muted
@@ -14,7 +14,7 @@ function LandingPage() {
         ></video>
         <video
           className="hidden md:block absolute top-0 left-0 w-full h-full object-cover"
-          src="/main_vid.mp4"
+          src="/main_vid_comp.mp4"
           autoPlay
           loop
           muted
