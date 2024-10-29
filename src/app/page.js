@@ -55,7 +55,7 @@ function LandingPage() {
             />
           </a>
           <a
-            href="https://pump.fun/FAS87Vmmejcf5RBtpfGZ8vPAjR2VuUZJ6Sojf8Jgpump"
+            href="https://pump.fun/BPFXTGBjoARa89gbSvbp7Dy6cQwgGc7efW1jE8nTpump"
             target="_blank"
             rel="noopener noreferrer"
           >
