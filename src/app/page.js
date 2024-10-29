@@ -55,7 +55,7 @@ function LandingPage() {
             />
           </a>
           <a
-            href="https://t.me/molang_onsol"
+            href="https://pump.fun/FAS87Vmmejcf5RBtpfGZ8vPAjR2VuUZJ6Sojf8Jgpump"
             target="_blank"
             rel="noopener noreferrer"
           >
